@@ -1,0 +1,22 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        // maven { url 'https://raw.githubusercontent.com/ScaleDrone/maven-repo/master/releases' } if needed
+        //mavenCentral {'https://mvnrepository.com/artifact/com.scaledrone/scaledrone-java'}
+    }
+    dependencies {
+        // Use AGP 8.1.2 to match your project
+        classpath 'com.android.tools.build:gradle:8.8.0'
+        // For the Google Services plugin
+        classpath "com.google.gms:google-services:4.4.2"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        //mavenCentral {'https://mvnrepository.com/artifact/com.scaledrone/scaledrone-java'}
+    }
+}

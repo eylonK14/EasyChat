@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="top"
+    tools:context=".SignUpActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="top">
+
+        <!--   אפשר לעשות משתנה שיתעדכן ליוסר ניים ויהפוך להיות שלום בן במקום שלום אורח.    -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello, Guest"
+            android:textSize="25sp"
+            android:textColor="#000000"
+            android:gravity="center" />
+    </LinearLayout>
+
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter your username:"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:gravity="left" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputMailLogin"
+                android:hint="Username" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter your mail:"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:gravity="left" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputMail"
+                android:hint="Mail" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter your password:"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:gravity="left" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputPass"
+                android:inputType="textPassword"
+                android:hint="Password" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Repeat your password:"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:gravity="left" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputPass2"
+                android:inputType="textPassword"
+                android:hint="Password" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="You are a:"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:gravity="left" />
+
+            <RadioGroup
+                android:orientation="horizontal" android:id="@+id/radio">
+
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Child"
+                    android:id="@+id/child"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Parent"
+                    android:id="@+id/parent"/>
+
+            </RadioGroup>
+
+        </TableRow>
+
+        <TableRow android:visibility="invisible" android:id="@+id/childMTR">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter your child's mail:"
+                android:textSize="15sp"
+                android:textColor="#000000"
+                android:gravity="left" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/inputChildMail"
+                android:hint="Mail" />
+        </TableRow>
+
+    </TableLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:textSize="26sp"
+        android:id="@+id/btnClear" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:textSize="36sp"
+        android:id="@+id/btnSubmit"
+        android:onClick="onClickSubmit" />
+
+</LinearLayout>
