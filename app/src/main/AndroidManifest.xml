@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.lenovo.eazyproject">
 
+    <!-- Required for Firebase and Google Sign-In -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 
     <application
@@ -14,6 +16,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         >
+        <!--  Google Sign-In Meta-Data  -->
+        <meta-data
+            android:name="com.google.android.gms.auth.api.signin"
+            android:value="@string/default_web_client_id" />
+
         <activity
             android:name=".MainActivityPar"
             android:label="@string/title_activity_main_par"
