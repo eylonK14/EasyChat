@@ -216,4 +216,6 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+    public void onMessage(String msg) {
+    }
 }

@@ -13,9 +13,17 @@ import java.util.Map;
 public class helperMethods {
 
     @SuppressLint("StaticFieldLeak")
-    private static final FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
+    private static FirebaseMessaging firebaseMessaging;
     private static String roomName;
 
+    /**
+     * Initializes FirebaseMessaging only when needed.
+     */
+    public static void initFirebaseMessaging() {
+        if (firebaseMessaging == null) {
+            firebaseMessaging = FirebaseMessaging.getInstance();
+        }
+    }
     public static void init(MainActivity mainActivity, String _roomName) {
         roomName = _roomName;
         subscribeToRoom();
@@ -27,6 +35,7 @@ public class helperMethods {
     }
 
     private static void subscribeToRoom() {
+        initFirebaseMessaging();
         firebaseMessaging.subscribeToTopic(roomName)
                 .addOnCompleteListener(task -> {
                     if (!task.isSuccessful()) {
