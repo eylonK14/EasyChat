@@ -1,12 +1,11 @@
 package com.example.lenovo.eazyproject;
 
-
 import static junit.framework.TestCase.assertEquals;
-
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+@RunWith(JUnit4.class)
 public class HelperMetTest {
 
     @Test
@@ -15,9 +14,5 @@ public class HelperMetTest {
         assertEquals(R.drawable.send, helperMethods.getImgId("ques1", "School"));
         assertEquals(R.drawable.their_message, helperMethods.getImgId("ques1", "Friend"));
     }
-//        assertTrue(SignUpActivity.isEmailValid("name@gmail.com"));
-//        assertTrue(SignUpActivity.isEmailValid("valid_email123@example.co.il"));
-//        assertTrue(SignUpActivity.isEmailValid("eli@gmail.com"));
-//        assertTrue(SignUpActivity.isEmailValid("
-    }
+}
 
