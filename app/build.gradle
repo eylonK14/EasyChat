@@ -15,7 +15,8 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -49,4 +50,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:21.1.1'
 
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.18.1'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+    androidTestImplementation 'androidx.test:runner:1.6.1'
+    androidTestImplementation 'androidx.test:rules:1.6.1'
+
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
+
+
 }
