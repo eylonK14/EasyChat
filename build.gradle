@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         // Use AGP 8.1.2 to match your project
-        classpath 'com.android.tools.build:gradle:8.8.0'
+        classpath 'com.android.tools.build:gradle:8.7.2'
         // For the Google Services plugin
         classpath "com.google.gms:google-services:4.4.2"
     }
