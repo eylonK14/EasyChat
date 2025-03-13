@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Button;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +23,7 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-
+import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,9 @@ import java.util.Map;
 
 public class MainActivityPar extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private FirebaseAuth mAuth;
+
+    private Button btnSignOut;
     private static final String TAG = "MainActivityPar";
 
     public String roomName = null;
@@ -45,6 +49,16 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
         isActivityOn = true;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_par);
+
+        mAuth = FirebaseAuth.getInstance();
+        btnSignOut = findViewById(R.id.btnSignOut);
+
+
+        btnSignOut.setOnClickListener(v -> {
+            mAuth.signOut(); // Logs out the user
+            startActivity(new Intent(MainActivityPar.this, LoginActivity.class)); // Go back to login
+            finish(); // Close current activity
+        });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

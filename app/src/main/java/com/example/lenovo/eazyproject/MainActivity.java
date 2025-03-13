@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Button;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +22,8 @@ import com.google.firebase.firestore.Query;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Button btnSignOut;
+    private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     public String roomName = null;
     private static final String TAG = "MainActivity";
@@ -31,6 +35,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        Button btnSignOut = findViewById(R.id.btnSignOut);
+
+        //When the button is clicked, sign out and go back to LoginActivity
+        btnSignOut.setOnClickListener(v -> {
+            mAuth.signOut(); // Logs out the user
+            startActivity(new Intent(MainActivity.this, LoginActivity.class)); // Go back to login
+            finish(); // Close current activity
+        });
 
         roomName = "testRoom"; // Hard-coded for debugging
         Log.d("MainActivity", "Hardcoded room name: " + roomName);
