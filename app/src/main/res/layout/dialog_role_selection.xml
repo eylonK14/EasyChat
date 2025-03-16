@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- Parent Role Option -->
+    <RadioGroup
+        android:id="@+id/radioGroupRole"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rbParent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Parent" />
+
+        <RadioButton
+            android:id="@+id/rbChild"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Child" />
+    </RadioGroup>
+
+    <!-- Child Email Input (Visible Only for Parent) -->
+    <TableRow
+        android:id="@+id/childEmailRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:paddingTop="10dp">
+
+        <EditText
+            android:id="@+id/etChildEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Child's Email"
+            android:inputType="textEmailAddress" />
+    </TableRow>
+
+</LinearLayout>
