@@ -183,9 +183,19 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
                 messageView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             }
 
+            // Create layout parameters and set a bottom margin to add space between messages
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            // Convert 8dp to pixels for proper sizing across devices
+            int marginBottom = (int) (8 * getResources().getDisplayMetrics().density);
+            layoutParams.setMargins(0, 0, 0, marginBottom);
+            messageView.setLayoutParams(layoutParams);
+
             chatLayout.addView(messageView);
         });
     }
+
 
     /**
      * Sends a message to the Firestore database.

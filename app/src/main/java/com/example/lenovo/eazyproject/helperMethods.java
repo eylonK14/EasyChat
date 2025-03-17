@@ -13,6 +13,7 @@ import java.util.Map;
 public class helperMethods {
 
     @SuppressLint("StaticFieldLeak")
+    private static final FirebaseMessaging firebaseMessaging = FirebaseMessaging.getInstance();
     private static String roomName;
 
     public static void init(MainActivity mainActivity, String _roomName) {

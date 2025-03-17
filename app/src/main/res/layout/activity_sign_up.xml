@@ -7,7 +7,18 @@
     android:gravity="top"
     android:orientation="vertical"
     android:padding="20dp"
+    android:background="@drawable/bg1"
     tools:context=".SignUpActivity">
+
+    <ImageView
+        android:id="@+id/signupIcon"
+        android:layout_width="222dp"
+        android:layout_height="171dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="SignUp Icon"
+        android:scaleType="centerInside"
+        android:src="@drawable/easychat" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -157,11 +168,23 @@
 
     <Button
         android:id="@+id/btnClear"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="CLEAR"
+        android:textSize="18sp"
+        android:backgroundTint="@color/red"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="12dp"/>
 
     <Button
         android:id="@+id/btnSubmit"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="SUBMIT"
+        android:textSize="18sp"
+        android:backgroundTint="@color/green"
+        android:textColor="@android:color/white"
         android:onClick="onClickSubmit"
+        android:layout_marginTop="12dp"/>
 
 </LinearLayout>
