@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- EditText for the question -->
+    <EditText
+        android:id="@+id/etQuestionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your question" />
+
+    <!-- EditText for answer 1 -->
+    <EditText
+        android:id="@+id/etAnswer1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter answer 1" />
+
+    <!-- EditText for answer 2 -->
+    <EditText
+        android:id="@+id/etAnswer2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter answer 2" />
+
+</LinearLayout>

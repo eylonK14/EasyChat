@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -51,9 +52,15 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Initialize helper methods and Firestore instance
+        // Initialize helper methods now that roomName is available
         helperMethods.init(this, roomName);
+
+        // Initialize Firestore instance and then set its settings
         db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
 
         // Listen for messages in the room and display full history.
         // Now, we check the "sender" field: if "child" then it's the child's message (align right),
@@ -105,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         // If the message is a question, handle it.
-        if (message.startsWith("ques")) {
-            String questionId = message.substring(4).trim();
+        if (message.startsWith("ques?")) {
+            String questionId = message.substring(5).trim();
             handleQuestionMessage(questionId);
         } else {
             // Otherwise, simply add it to the chat view.
@@ -132,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         DocumentReference questionRef = db.collection("ques").document(questionId);
-        // Use get() instead of addSnapshotListener
+        System.out.println("Got here!");
+        // Use get() instead of addSnapshotListener for one-time fetch.
         questionRef.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot value = task.getResult();
@@ -179,7 +187,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     /**
      * Called when the user taps the send button.
      */
@@ -210,9 +217,10 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            if (message.startsWith("ques")) {
-                String questionId = message.substring(4).trim();
+            if (message.startsWith("ques?")) {
+                String questionId = message.substring(5).trim();
                 handleQuestionMessage(questionId);
+                return;
             }
 
             TextView messageView = new TextView(this);
@@ -221,11 +229,11 @@ public class MainActivity extends AppCompatActivity {
             messageView.setPadding(10, 10, 10, 10);
 
             if (isSentByChild) {
-                // Child's message: right-aligned, white (or received) background.
+                // Child's message: right-aligned, use appropriate background.
                 messageView.setBackgroundResource(R.drawable.sent_message_background);
                 messageView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             } else {
-                // Parent's message: left-aligned, green (or sent) background.
+                // Parent's message: left-aligned, use appropriate background.
                 messageView.setBackgroundResource(R.drawable.received_message_background);
                 messageView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             }
