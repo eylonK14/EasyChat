@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="20dp"
-    android:gravity="center"
     tools:context=".LoginActivity">
 
 
@@ -26,31 +26,40 @@
         android:hint="Mail" />
 
     <EditText
+        android:id="@+id/inputPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/inputPass"
-        android:inputType="textPassword"
-        android:hint="Password" />
+        android:hint="Password"
+        android:inputType="textPassword" />
 
     <Button
+        android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:textSize="26sp"
-        android:id="@+id/btnLogin" />
+        android:textSize="26sp" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btnGoogleSignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign in with Google" />
+
 
     <Button
+        android:id="@+id/btnSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign Up"
-        android:textSize="16sp"
-        android:id="@+id/btnSignUp" />
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Logout"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
+
+
 
 </LinearLayout>

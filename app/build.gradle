@@ -3,11 +3,12 @@ apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle p
 
 android {
     namespace "com.example.lenovo.eazyproject"    // <-- Add this line
+    compileSdk  34
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    compileSdkVersion 34
+
     defaultConfig {
         applicationId "com.example.lenovo.eazyproject"
         minSdkVersion 23
@@ -37,6 +38,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //noinspection GradleCompatible
     implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.gms:play-services-auth:20.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     implementation 'com.google.firebase:firebase-firestore:25.1.1'
     implementation 'com.google.android.material:material:1.12.0'
