@@ -12,54 +12,31 @@
 
     <TextView
         android:id="@+id/helloText"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:text="Hello, Guest"
-        android:textColor="#000000"
-        android:textSize="35sp" />
 
     <EditText
         android:id="@+id/inputMailLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Mail" />
 
     <EditText
         android:id="@+id/inputPass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
-        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:textSize="26sp" />
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/btnGoogleSignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign in with Google" />
-
 
     <Button
         android:id="@+id/btnSignUp"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Up"
-        android:textSize="16sp" />
 
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Logout"
-        android:visibility="invisible" />
-
-
 
 </LinearLayout>
