@@ -460,7 +460,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Log.d(TAG, "getChildFromDB: Opening MainActivityPar with child username: " + childUsername);
 
                 Intent intent = new Intent(LoginActivity.this, MainActivityPar.class);
-                intent.putExtra("childUsername", childUsername);
+                intent.putExtra("roomName", childUsername);
                 startActivity(intent);
                 finish();
             }

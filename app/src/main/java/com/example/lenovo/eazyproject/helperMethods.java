@@ -34,17 +34,20 @@ public class helperMethods {
                     }
                 });
     }
-
     public static void sendMsg(String msg) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> messageData = new HashMap<>();
         messageData.put("text", msg);
-        messageData.put("room", roomName); // Ensure `roomName` is set
+        messageData.put("room", roomName); // Ensure roomName is set via init()
+        // Set the sender field to "child" for messages sent from MainActivity (child user)
+        messageData.put("sender", "child");
         messageData.put("timestamp", FieldValue.serverTimestamp());
 
         db.collection("messages").add(messageData)
-                .addOnSuccessListener(documentReference -> Log.d("HelperMethods", "Message sent: " + msg))
-                .addOnFailureListener(e -> Log.e("HelperMethods", "Error sending message", e));
+                .addOnSuccessListener(documentReference ->
+                        Log.d("HelperMethods", "Message sent: " + msg))
+                .addOnFailureListener(e ->
+                        Log.e("HelperMethods", "Error sending message", e));
     }
 
 

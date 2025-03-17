@@ -1,5 +1,6 @@
 package com.example.lenovo.eazyproject;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -32,16 +34,13 @@ import java.util.Map;
 public class MainActivityPar extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
-
     private Button btnSignOut;
     private static final String TAG = "MainActivityPar";
 
-    public String roomName = null;
+    public String roomName;
     public List<String> questions = new ArrayList<>();
-
     boolean isActivityOn = false;
     AlertDialog logoutD;
-
     private FirebaseFirestore db;
 
     @Override
@@ -52,7 +51,6 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
 
         mAuth = FirebaseAuth.getInstance();
         btnSignOut = findViewById(R.id.btnSignOut);
-
 
         btnSignOut.setOnClickListener(v -> {
             mAuth.signOut(); // Logs out the user
@@ -74,8 +72,8 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
         navigationView.setNavigationItemSelectedListener(this);
 
         // Initialize room name
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
+        Bundle extras = this.getIntent().getExtras();
+        if (extras != null){
             roomName = extras.getString("roomName");
         } else {
             Log.e(TAG, "Room name is null. Cannot proceed.");
@@ -94,7 +92,7 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
                     questions.add(questionText);
 
                     // Add questions to navigation menu
-                    NavigationView mLeftDrawer = findViewById(R.id.nav_view);
+                    @SuppressLint("CutPasteId") NavigationView mLeftDrawer = findViewById(R.id.nav_view);
                     Menu menu = mLeftDrawer.getMenu();
                     menu.add(1, count, count, questionText);
                 }
@@ -103,7 +101,7 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
             }
         });
 
-        // Listen for messages in the current room
+        // Listen for messages in the current room and display the full history
         db.collection("messages")
                 .whereEqualTo("room", roomName)
                 .orderBy("timestamp", Query.Direction.ASCENDING)
@@ -112,13 +110,30 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
                         Log.e(TAG, "Error listening to messages", e);
                         return;
                     }
-
-                    for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                        if (dc.getType() == DocumentChange.Type.ADDED) {
-                            String message = dc.getDocument().getString("text");
-                            Log.d(TAG, "New message received: " + message);
-                            addMessageToView(message, false); // Add message to chat view
-                        }
+                    if (snapshots != null) {
+                        Log.d(TAG, "Firestore returned " + snapshots.size() + " messages for room: " + roomName);
+                        runOnUiThread(() -> {
+                            LinearLayout chatLayout = findViewById(R.id.chatPar);
+                            if (chatLayout == null) {
+                                Log.e(TAG, "chatPar layout not found.");
+                                return;
+                            }
+                            chatLayout.removeAllViews();
+                            for (DocumentSnapshot document : snapshots.getDocuments()) {
+                                String message = document.getString("text");
+                                // Check the sender field to determine alignment
+                                String sender = document.getString("sender");
+                                boolean isSentByUser = sender != null && sender.equals("parent");
+                                if (message != null) {
+                                    Log.d(TAG, "Adding message: " + message + " (sender: " + sender + ")");
+                                    addMessageToView(message, isSentByUser);
+                                } else {
+                                    Log.w(TAG, "Document " + document.getId() + " is missing the 'text' field.");
+                                }
+                            }
+                        });
+                    } else {
+                        Log.w(TAG, "Snapshots is null for room: " + roomName);
                     }
                 });
     }
@@ -160,6 +175,7 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
 
     /**
      * Adds a message to the chat view.
+     * Parent's messages will be displayed on the left and child's on the right.
      */
     public void addMessageToView(String message, boolean isSentByUser) {
         runOnUiThread(() -> {
@@ -174,21 +190,23 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
             messageView.setTextSize(16);
             messageView.setPadding(10, 10, 10, 10);
 
-            // Apply different styles for sent and received messages
+            // For parent's messages (isSentByUser == true), align left.
+            // For child's messages, align right.
             if (isSentByUser) {
+                // Parent's message: left-aligned with green background.
                 messageView.setBackgroundResource(R.drawable.sent_message_background);
-                messageView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-            } else {
-                messageView.setBackgroundResource(R.drawable.received_message_background);
                 messageView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            } else {
+                // Child's message: right-aligned with white (or default) background.
+                messageView.setBackgroundResource(R.drawable.received_message_background);
+                messageView.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             }
 
             // Create layout parameters and set a bottom margin to add space between messages
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT);
-            // Convert 8dp to pixels for proper sizing across devices
-            int marginBottom = (int) (8 * getResources().getDisplayMetrics().density);
+            int marginBottom = (int) (8 * getResources().getDisplayMetrics().density); // 8dp bottom margin
             layoutParams.setMargins(0, 0, 0, marginBottom);
             messageView.setLayoutParams(layoutParams);
 
@@ -196,9 +214,9 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
         });
     }
 
-
     /**
      * Sends a message to the Firestore database.
+     * A "sender" field is added to distinguish between parent and child messages.
      */
     public void sendMessage(String message) {
         if (roomName == null || roomName.isEmpty()) {
@@ -209,6 +227,8 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
         Map<String, Object> messageData = new HashMap<>();
         messageData.put("text", message);
         messageData.put("room", roomName);
+        // Add the sender field so we can differentiate messages later
+        messageData.put("sender", "parent");
         messageData.put("timestamp", com.google.firebase.firestore.FieldValue.serverTimestamp());
 
         db.collection("messages").add(messageData)
@@ -222,7 +242,8 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
 
         if (!newMessage.isEmpty()) {
             sendMessage(newMessage);
-            addMessageToView(newMessage, true); // Add sent message to chat view
+            // When sending locally, mark as parent's message.
+            addMessageToView(newMessage, true);
         }
         newMess.setText(""); // Clear input field
     }
@@ -242,5 +263,6 @@ public class MainActivityPar extends AppCompatActivity implements NavigationView
     }
 
     public void onMessage(String msg) {
+        // No additional handling for now.
     }
 }
